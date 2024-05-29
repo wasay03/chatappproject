@@ -1,4 +1,6 @@
+import 'package:chatappproject/models/UserModel.dart';
 import 'package:chatappproject/screens/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +11,7 @@ import 'package:chatappproject/screens/SignupPage.dart';
 class LoginPage extends ConsumerWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  User? user;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,7 +55,7 @@ class LoginPage extends ConsumerWidget {
                           ).then((_) {
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => HomePage()),
+                              MaterialPageRoute(builder: (context) => Placeholder()),
                             );
                           });
                         } catch (e) {
@@ -71,12 +74,16 @@ class LoginPage extends ConsumerWidget {
                     onTap: authServiceAsync.when(
                       data: (authService) => () async {
                         try {
-                          await authService.signInWithGoogle().then((_) {
+                          UserCredential userCredential = (await authService.signInWithGoogle()) as UserCredential;
+                          User? user = userCredential.user;
+                          if (user != null) {
+                            // Assuming you have a method to get UserModel from Firebase User
+                            UserModel? userModel = await authService.getUser(userCredential.user!);
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => HomePage()),
+                              MaterialPageRoute(builder: (context) => HomePage(userModel: userModel!, firebaseUser: user!)),
                             );
-                          });
+                          }
                         } catch (e) {
                           print(e.toString());
                         }

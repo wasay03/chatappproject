@@ -6,65 +6,92 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
+  final UserModel userModel;
+  final User firebaseUser;
+
+  const HomePage({Key? key, required this.userModel, required this.firebaseUser}) : super(key: key);
+
   @override
-  Widget build(BuildContext context,UserModel userModel,User firebaseUser) {
-    ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey.shade600)
-    );
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(centerTitle: true, title: const Text("Home"), actions: [
-        IconButton(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Home"),
+        actions: [
+          IconButton(
             onPressed: () {
               _signOut(context);
-              
             },
-            icon: const Icon(Icons.logout))
-      ]),
+            icon: const Icon(Icons.logout),
+          )
+        ],
+      ),
       body: FutureBuilder<User?>(
         future: _getUser(),
         builder: (context, snapshot) {
-          while (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator(); // Show loading indicator while fetching user data
-          } {
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}'); // Show error message if fetching fails
-            } else {
-              User? user = snapshot.data;
-              return Column(
-                children: [
-                  ListTile(title: Text(
-                  'Hey ${user?.displayName.toString()}',
-                  style: TextStyle(
-                    fontSize: 30, // Increase the size for display name
-                    fontWeight: FontWeight.bold,color: Colors.orange // Emphasize display name
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}'); // Show error message if fetching fails
+          } else {
+            User? user = snapshot.data;
+            return Column(
+              children: [
+                ListTile(
+                  title: Text(
+                    'Hey ${user?.displayName.toString()}',
+                    style: TextStyle(
+                      fontSize: 30, // Increase the size for display name
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange, // Emphasize display name
                     ),
-                        )
-                    ,subtitle: Text('Start Exploring Resources'),) 
-                ,
+                  ),
+                  subtitle: Text('Start Exploring Resources'),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: SearchBar(leading: Icon(Icons.search),trailing: [Icon(Icons.delete_forever_sharp)],hintText: "Search by name",elevation:MaterialStateProperty.resolveWith<double?>((_)=> 20),
+                  child: SearchBar(
+                    leading: Icon(Icons.search),
+                    trailing: [Icon(Icons.delete_forever_sharp)],
+                    hintText: "Search by name",
+                    elevation: MaterialStateProperty.resolveWith<double?>((_) => 20),
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(8)),
-
-               
-                   SizedBox(
-                    height: 553,
-                    child: Container(
-                    decoration:BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)) ,
-                    color:Colors.blueGrey.shade200),
-                    
+                SizedBox(
+                  height: 553,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                      color: Colors.blueGrey.shade200,
+                    ),
                   ),
-                
-              )],
-              );
-            }
+                ),
+              ],
+            );
           }
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [BottomNavigationBarItem(label: "Create",icon: Icon(Icons.create_outlined)),BottomNavigationBarItem(label: "profile",icon: Icon(Icons.portrait))]),
-    
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            label: "Create",
+            icon: Icon(Icons.create_outlined),
+          ),
+          BottomNavigationBarItem(
+            label: "Profile",
+            icon: Icon(Icons.portrait),
+          ),
+        ],
+      ),
     );
   }
 
@@ -79,11 +106,5 @@ class HomePage extends StatefulWidget {
 
   Future<User?> _getUser() async {
     return FirebaseAuth.instance.currentUser;
-  }
-  
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
   }
 }

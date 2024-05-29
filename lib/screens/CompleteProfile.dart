@@ -1,4 +1,6 @@
 
+
+
 import 'dart:io';
 
 import 'package:chatappproject/models/UIHelper.dart';
@@ -36,15 +38,15 @@ class _CompleteProfileState extends State<CompleteProfile> {
   }
 
   void cropImage(XFile file) async {
-    File? croppedImage = (await ImageCropper().cropImage(
+    CroppedFile? croppedImage = await ImageCropper().cropImage(
       sourcePath: file.path,
       aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       compressQuality: 20
-    )) as File?;
+    );
 
     if(croppedImage != null) {
       setState(() {
-        imageFile = croppedImage;
+        imageFile = File(croppedImage.path);
       });
     }
   }
@@ -114,7 +116,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) {
-          return HomePage();
+          return HomePage(userModel: widget.userModel, firebaseUser: widget.firebaseUser);
         }),
       );
     });
