@@ -23,12 +23,12 @@ class AuthenticationService {
     }
   }
 
-  Future<UserModel?> getUser(User user) async {
+  Future<UserModel> getUserModel(User user) async {
     String uid = user.uid;
     DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(uid).get();
     return UserModel.fromMap(userData.data() as Map<String, dynamic>);
   }
-
+  
   Future<UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignIn _googleSignIn = GoogleSignIn();

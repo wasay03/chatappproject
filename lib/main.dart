@@ -77,7 +77,7 @@ class AuthChecker extends ConsumerWidget {
               } else {
                 // Fetch UserModel from Firestore
                 return FutureBuilder<UserModel?>(
-                  future: service.getUser(user),
+                  future: service.getUserModel(user),
                   builder: (context, userModelSnapshot) {
                     if (userModelSnapshot.connectionState == ConnectionState.done) {
                       if (userModelSnapshot.hasError) {

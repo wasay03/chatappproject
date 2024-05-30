@@ -1,4 +1,5 @@
 import 'package:chatappproject/models/UserModel.dart';
+import 'package:chatappproject/screens/SearchPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:chatappproject/screens/LoginPage.dart';
@@ -21,8 +22,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Home"),
+        title: const Text("Messenger"),
         actions: [
+          
           IconButton(
             onPressed: () {
               _signOut(context);
@@ -30,68 +32,24 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.logout),
           )
         ],
+      
       ),
-      body: FutureBuilder<User?>(
-        future: _getUser(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(); // Show loading indicator while fetching user data
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}'); // Show error message if fetching fails
-          } else {
-            User? user = snapshot.data;
-            return Column(
-              children: [
-                ListTile(
-                  title: Text(
-                    'Hey ${user?.displayName.toString()}',
-                    style: TextStyle(
-                      fontSize: 30, // Increase the size for display name
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange, // Emphasize display name
-                    ),
-                  ),
-                  subtitle: Text('Start Exploring Resources'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: SearchBar(
-                    leading: Icon(Icons.search),
-                    trailing: [Icon(Icons.delete_forever_sharp)],
-                    hintText: "Search by name",
-                    elevation: MaterialStateProperty.resolveWith<double?>((_) => 20),
-                  ),
-                ),
-                Padding(padding: EdgeInsets.all(8)),
-                SizedBox(
-                  height: 553,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                      color: Colors.blueGrey.shade200,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          }
+      body: SafeArea(child: Container()),
+      floatingActionButton: FloatingActionButton(
+        onPressed:(){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPage(userModel: UserModel(
+          uid: '1', 
+          fullname: 'Test User', 
+          email: 'test@example.com', 
+          profilepic: 'https://example.com/profilepic.jpg'
+        ),
+        firebaseUser: FirebaseAuth.instance.currentUser!,)));
         },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            label: "Create",
-            icon: Icon(Icons.create_outlined),
-          ),
-          BottomNavigationBarItem(
-            label: "Profile",
-            icon: Icon(Icons.portrait),
-          ),
-        ],
-      ),
+        child: Icon(Icons.search),
+        ),
+      
+      
+      
     );
   }
 

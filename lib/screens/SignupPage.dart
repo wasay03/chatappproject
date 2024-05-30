@@ -100,7 +100,7 @@ class SignUpPage extends StatelessWidget {
                   SizedBox(height: 20),
                   CupertinoButton(
                     onPressed: () => checkValues(context),
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                     child: Text("Sign Up"),
                   ),
                 ],

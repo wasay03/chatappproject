@@ -1,3 +1,4 @@
+import 'package:chatappproject/main.dart';
 import 'package:chatappproject/models/UserModel.dart';
 import 'package:chatappproject/screens/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,15 +50,16 @@ class LoginPage extends ConsumerWidget {
                     onPressed: authServiceAsync.when(
                       data: (authService) => () async {
                         try {
-                          await authService.signInWithEmailAndPassword(
-                            _emailController.text.trim(),
-                            _passwordController.text.trim(),
-                          ).then((_) {
+                          UserCredential userCredential = (await authService.signInWithEmailAndPassword(_emailController.text.trim(),_passwordController.text.trim())) as UserCredential;
+                          User? user = userCredential.user;
+                          if (user != null) {
+                            // Assuming you have a method to get UserModel from Firebase User
+                            UserModel? userModel = await authService.getUserModel(userCredential.user!);
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => Placeholder()),
+                              MaterialPageRoute(builder: (context) => HomePage(userModel: userModel!, firebaseUser: user!)),
                             );
-                          });
+                          }
                         } catch (e) {
                           print(e.toString());
                         }
@@ -78,7 +80,7 @@ class LoginPage extends ConsumerWidget {
                           User? user = userCredential.user;
                           if (user != null) {
                             // Assuming you have a method to get UserModel from Firebase User
-                            UserModel? userModel = await authService.getUser(userCredential.user!);
+                            UserModel? userModel = await authService.getUserModel(userCredential.user!);
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => HomePage(userModel: userModel!, firebaseUser: user!)),

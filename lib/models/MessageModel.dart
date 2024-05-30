@@ -4,7 +4,7 @@ class MessageModel {
   bool? seen;
   DateTime? createdon;
 
-  MessageModel({this.sender, this.text, this.seen, this.createdon});
+  MessageModel({this.sender, this.text, this.seen, this.createdon, required messageid});
 
   MessageModel.fromMap(Map<String, dynamic> map) {
     sender = map['sender'];
