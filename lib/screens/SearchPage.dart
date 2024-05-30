@@ -3,12 +3,12 @@ import 'package:chatappproject/models/ChatRoomModel.dart';
 import 'package:chatappproject/models/UserModel.dart';
 import 'package:chatappproject/providers/search_provider.dart';
 import 'package:chatappproject/screens/ChatRoomPage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SearchPage extends ConsumerWidget {
   final UserModel userModel;
@@ -88,7 +88,7 @@ class SearchPage extends ConsumerWidget {
                         ),
                         title: Text(searchedUser.fullname!),
                         subtitle: Text(searchedUser.email!),
-                        trailing: Icon(Icons.keyboard_arrow_right),
+                        trailing: Icon(Icons.chat),
                       );
                     },
                   ),

@@ -1,6 +1,6 @@
 import 'package:chatappproject/models/ChatRoomModel.dart';
 import 'package:chatappproject/models/UserModel.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,7 +48,10 @@ class ChatRoomNotifier extends StateNotifier<ChatRoomModel?> {
     } else {
       ChatRoomModel newChatroom = ChatRoomModel(
         chatroomid: DateTime.now().millisecondsSinceEpoch.toString(),
-        participants: [currentUser.uid!, targetUser.uid!] as Map<String,dynamic> ,
+        participants: {
+          currentUser.uid!: true,
+          targetUser.uid!: true,
+        },
       );
 
       await FirebaseFirestore.instance
