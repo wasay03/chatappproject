@@ -73,14 +73,15 @@ class SignUpPage extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Chat App",
+                    "Messenger",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 45,
                       fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 30),
                   TextField(
                     controller: emailController,
                     decoration: InputDecoration(labelText: "Email Address"),
@@ -97,8 +98,9 @@ class SignUpPage extends StatelessWidget {
                     obscureText: true,
                     decoration: InputDecoration(labelText: "Confirm Password"),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 40),
                   CupertinoButton(
+                    borderRadius: BorderRadius.circular(20),
                     onPressed: () => checkValues(context),
                     color: Theme.of(context).colorScheme.primary,
                     child: Text("Sign Up"),

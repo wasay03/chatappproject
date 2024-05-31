@@ -35,6 +35,7 @@ class LoginPage extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(height: 20,),
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(hintText: "Your email"),
@@ -45,7 +46,7 @@ class LoginPage extends ConsumerWidget {
                     decoration: InputDecoration(hintText: "Your password"),
                     obscureText: true,
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 40),
                   CupertinoButton(
                     onPressed: authServiceAsync.when(
                       data: (authService) => () async {
@@ -68,7 +69,7 @@ class LoginPage extends ConsumerWidget {
                       error: (error, stack) => null,
                     ),
                     child: Text("Login"),
-                    color: Colors.blue,
+                    color:  Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   Text("Or"),
@@ -96,7 +97,6 @@ class LoginPage extends ConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                       child: Card(
-                        elevation: 20,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         child: SizedBox(
                           height: 50,
@@ -136,7 +136,7 @@ class LoginPage extends ConsumerWidget {
               },
               child: Text(
                 "Sign Up",
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
           ],

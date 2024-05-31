@@ -18,4 +18,16 @@ class ChatRoomModel {
       'participants': participants,
     };
   }
+
+  ChatRoomModel copyWith({
+    String? chatroomid,
+    String? lastMessage,
+    Map<String, bool>? participants,
+  }) {
+    return ChatRoomModel(
+      chatroomid: chatroomid ?? this.chatroomid,
+      lastMessage: lastMessage ?? this.lastMessage,
+      participants: participants ?? this.participants,
+    );
+  }
 }

@@ -100,7 +100,7 @@ class CompleteProfile extends ConsumerWidget {
     TaskSnapshot snapshot = await uploadTask;
 
     String imageUrl = await snapshot.ref.getDownloadURL();
-    String fullname = ref.read(userProvider).fullname!;
+    String fullname = ref.watch(userProvider).fullname!;
 
     UserModel updatedUser = userModel;
     updatedUser.fullname = fullname;

@@ -47,17 +47,21 @@ class SearchPage extends ConsumerWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
+            
             children: [
-              TextField(
-                controller: searchController,
-                decoration: InputDecoration(labelText: "Email Address"),
+              ListTile(
+                title: TextField(
+                  controller: searchController,
+                  decoration: InputDecoration(labelText: "Search By Email"),
+                ),
+                trailing: IconButton(icon: Icon(Icons.search),onPressed: performSearch,),
               ),
               SizedBox(height: 20),
-              CupertinoButton(
-                onPressed: performSearch,
-                color: Theme.of(context).colorScheme.secondary,
-                child: Text("Search"),
-              ),
+              // CupertinoButton(
+              //   onPressed: performSearch,
+              //   color: Theme.of(context).colorScheme.secondary,
+              //   child: Text("Search"),
+              // ),
               SizedBox(height: 20),
               if (searchResults.isNotEmpty)
                 Expanded(

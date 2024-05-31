@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chatappproject/models/UserModel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Provider for managing the user model
 final userProvider = StateNotifierProvider<UserNotifier, UserModel>((ref) {
@@ -30,6 +31,13 @@ class UserNotifier extends StateNotifier<UserModel> {
       email: state.email,
       profilepic: profilePicUrl,
     );
+  }
+
+  Future<void> fetchUser(String uid) async {
+    DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    if (doc.exists) {
+      state = UserModel.fromMap(doc.data() as Map<String, dynamic>);
+    }
   }
 }
 
