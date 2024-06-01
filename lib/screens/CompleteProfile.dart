@@ -125,6 +125,8 @@ class CompleteProfile extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:Colors.lightGreenAccent.shade100,
+
         centerTitle: true,
         automaticallyImplyLeading: false,
         title: Text("Complete Profile"),

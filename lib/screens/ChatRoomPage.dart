@@ -1,9 +1,13 @@
 
+// ignore_for_file: prefer_const_constructors
+
 import 'package:chatappproject/models/ChatRoomModel.dart';
 import 'package:chatappproject/models/MessageModel.dart';
 import 'package:chatappproject/models/UserModel.dart';
 import 'package:chatappproject/providers/chat_provider.dart';
 import 'package:chatappproject/providers/home_provider.dart';
+import 'package:chatappproject/screens/LoginPage.dart';
+import 'package:chatappproject/screens/ViewProfile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,23 +52,36 @@ class ChatRoomPage extends ConsumerWidget {
     markMessagesAsSeen(ref);
 
     return Scaffold(
+      
       appBar: AppBar(
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.grey[300],
-              backgroundImage: NetworkImage(targetUser.profilepic.toString()),
-            ),
-            SizedBox(width: 10),
-            Text(targetUser.fullname.toString()),
-          ],
+        title: GestureDetector(
+          onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewProfile(user: targetUser,chatroom: chatroom)));},//navigate to view profile
+
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.grey[300],
+                backgroundImage: NetworkImage(targetUser.profilepic.toString()),
+              ),
+              SizedBox(width: 10),
+              Text(targetUser.fullname.toString()),
+            ],
+          ),
         ),
       ),
       body: SafeArea(
+        
         child: Column(
+          
           children: [
             Expanded(
               child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/bg.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: messagesStream.when(
                   data: (dataSnapshot) {
@@ -118,11 +135,10 @@ class ChatRoomPage extends ConsumerWidget {
                               
                             ),
                           
-                                         Row(
-                                          mainAxisAlignment:(currentMessage.sender==userModel.uid)? MainAxisAlignment.end:MainAxisAlignment.start,
-                                        children: [
-                                          
-                                          Text(TimeOfDay.fromDateTime(currentMessage.createdon!).format(context) ),
+                             Row(
+                              mainAxisAlignment:(currentMessage.sender==userModel.uid)? MainAxisAlignment.end:MainAxisAlignment.start,
+                              children: [
+                                    Text(TimeOfDay.fromDateTime(currentMessage.createdon!).format(context) ),
                                           Icon((currentMessage.sender==userModel.uid)?((lastSentMessage.seen!)? Icons.done_all:Icons.check):null,size: 20,color:(lastSentMessage.seen!)? Colors.blue:Colors.grey, ),
                                         ],
                                                                         ),

@@ -1,5 +1,5 @@
 import 'package:chatappproject/providers/forgot_password_provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';  
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,6 +28,8 @@ class ForgotPasswordPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:Colors.lightGreenAccent.shade100,
+
         title: Text("Forgot Password"),
       ),
       body: Padding(

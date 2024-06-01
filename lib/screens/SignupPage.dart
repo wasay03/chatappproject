@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:chatappproject/models/UserModel.dart';
 import 'package:chatappproject/services/signup_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -67,6 +69,12 @@ class SignUpPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
+          decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/bg.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
           padding: EdgeInsets.symmetric(horizontal: 40),
           child: Center(
             child: SingleChildScrollView(
@@ -112,6 +120,12 @@ class SignUpPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/bg.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

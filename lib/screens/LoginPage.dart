@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:chatappproject/main.dart';
 import 'package:chatappproject/models/UserModel.dart';
 import 'package:chatappproject/screens/ForgotPasswordPage.dart';
@@ -23,13 +25,20 @@ class LoginPage extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/bg.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
           padding: EdgeInsets.symmetric(horizontal: 40),
           child: Center(
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  
                   Text(
-                    "Messenger",
+                    "Chat Link",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 40,
@@ -37,7 +46,7 @@ class LoginPage extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 50,),
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(hintText: "Your email"),
@@ -142,6 +151,12 @@ class LoginPage extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/bg.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

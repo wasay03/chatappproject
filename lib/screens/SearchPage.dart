@@ -45,6 +45,12 @@ class SearchPage extends ConsumerWidget {
       ),
       body: SafeArea(
         child: Container(
+          decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/bg.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             

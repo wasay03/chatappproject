@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:io';
 import 'package:chatappproject/models/UIHelper.dart';
 import 'package:chatappproject/models/UserModel.dart';
@@ -127,6 +129,8 @@ class EditProfile extends CompleteProfile {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:Colors.lightGreenAccent.shade100,
+
         leading: GestureDetector(child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Icon(Icons.close),
@@ -139,6 +143,12 @@ class EditProfile extends CompleteProfile {
       ),
       body: SafeArea(
         child: Container(
+          decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/bg.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
           padding: EdgeInsets.symmetric(horizontal: 40),
           child: ListView(
             children: [
@@ -170,7 +180,7 @@ class EditProfile extends CompleteProfile {
                 onPressed: () {
                   checkValues(context, ref);
                 },
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
                 child: Text("Submit"),
                 borderRadius: BorderRadius.circular(20),
               ),
