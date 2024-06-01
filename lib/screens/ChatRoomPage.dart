@@ -123,7 +123,7 @@ class ChatRoomPage extends ConsumerWidget {
                                         children: [
                                           
                                           Text(TimeOfDay.fromDateTime(currentMessage.createdon!).format(context) ),
-                                          Icon((currentMessage.sender==userModel.uid)?((lastSentMessage.seen!)? Icons.done_all:Icons.check):null ),
+                                          Icon((currentMessage.sender==userModel.uid)?((lastSentMessage.seen!)? Icons.done_all:Icons.check):null,size: 20,color:(lastSentMessage.seen!)? Colors.blue:Colors.grey, ),
                                         ],
                                                                         ),
                           
