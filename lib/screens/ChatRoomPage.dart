@@ -52,31 +52,60 @@ class ChatRoomPage extends ConsumerWidget {
                       itemCount: dataSnapshot.docs.length,
                       itemBuilder: (context, index) {
                         MessageModel currentMessage = MessageModel.fromMap(dataSnapshot.docs[index].data() as Map<String, dynamic>);
+                        MessageModel lastSentMessage=MessageModel.fromMap(dataSnapshot.docs[0].data() as Map<String,dynamic>);
+                        if(currentMessage.sender==userModel.uid){
+                          lastSentMessage=currentMessage;
+                        }
 
-                        return Row(
-                          mainAxisAlignment: (currentMessage.sender == userModel.uid) ? MainAxisAlignment.end : MainAxisAlignment.start,
+                        return Column(
                           children: [
-                            Container(
+                            Row(
+                              mainAxisAlignment: (currentMessage.sender == userModel.uid) ? MainAxisAlignment.end : MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  
+                                  margin: EdgeInsets.symmetric(vertical: 2),
+                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    color: (currentMessage.sender == userModel.uid) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          maxWidth: MediaQuery.of(context).size.width * 0.7,
+                                        ),
+                                        child: Text(
+                                          currentMessage.text.toString(),
+                                          style: TextStyle(color: Colors.white,fontSize: 25),
+                                          softWrap: true,
+                                          overflow: TextOverflow.visible, 
+                                        ),
+                                        
+                                      
+                                       
+                                      ),
+                                      
+                                    ],
+                                  ),
+                                
+                                ),
+                                
+                               
+                              ],
                               
-                              margin: EdgeInsets.symmetric(vertical: 2),
-                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: (currentMessage.sender == userModel.uid) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  maxWidth: MediaQuery.of(context).size.width * 0.7,
-                                ),
-                                child: Text(
-                                  currentMessage.text.toString(),
-                                  style: TextStyle(color: Colors.white),
-                                  softWrap: true,
-                                  overflow: TextOverflow.visible, 
-                                ),
-                              ),
                             ),
-
+                          
+                                         Row(
+                                          mainAxisAlignment:(currentMessage.sender==userModel.uid)? MainAxisAlignment.end:MainAxisAlignment.start,
+                                        children: [
+                                          
+                                          Text(TimeOfDay.fromDateTime(currentMessage.createdon!).format(context) ),
+                                          Icon((currentMessage.sender==userModel.uid)?((lastSentMessage.seen!)? Icons.done_all:Icons.check):null ),
+                                        ],
+                                                                        ),
+                          
                           ],
                         );
                       },
@@ -93,18 +122,21 @@ class ChatRoomPage extends ConsumerWidget {
               child: Row(
                 children: [
                   Flexible(
-                    child: TextField(
-                      controller: messageController,
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Type a message ...",
+                    child: Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                      child: TextField(
+                        controller: messageController,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: " Type a message ...",
+                        ),
                       ),
                     ),
                   ),
                   IconButton(
                     onPressed: sendMessageHandler,
-                    icon: Icon(Icons.send, color: Theme.of(context).colorScheme.primary),
+                    icon: Icon(Icons.send_outlined, color: Theme.of(context).colorScheme.primary),
                   ),
                 ],
               ),
