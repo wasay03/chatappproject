@@ -3,6 +3,7 @@ import 'package:chatappproject/models/ChatRoomModel.dart';
 import 'package:chatappproject/models/MessageModel.dart';
 import 'package:chatappproject/models/UserModel.dart';
 import 'package:chatappproject/providers/chat_provider.dart';
+import 'package:chatappproject/providers/home_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,10 +15,29 @@ class ChatRoomPage extends ConsumerWidget {
   final User firebaseUser;
 
   const ChatRoomPage({Key? key, required this.targetUser, required this.chatroom, required this.userModel, required this.firebaseUser}) : super(key: key);
-
+  
+  Future<void> markMessagesAsSeen(WidgetRef ref) async {
+    final firestore = ref.read(firebaseFirestoreProvider);
+    final chatroomRef = firestore.collection('chatrooms').doc(chatroom.chatroomid);
+    final messagesQuery = chatroomRef.collection('messages')
+      .where('sender', isEqualTo: targetUser.uid)
+      .where('seen', isEqualTo: false);
+      
+    final messagesSnapshot = await messagesQuery.get();
+    
+    final batch = firestore.batch();
+    
+    for (var doc in messagesSnapshot.docs) {
+      batch.update(doc.reference, {'seen': true});
+    }
+    
+    await batch.commit();
+  }
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final messageController = ref.watch(messageControllerProvider);
+    
     final sendMessage = ref.watch(sendMessageProvider);
     final messagesStream = ref.watch(messagesStreamProvider(chatroom.chatroomid as String));
 
@@ -25,6 +45,7 @@ class ChatRoomPage extends ConsumerWidget {
       sendMessage(messageController.text, userModel, chatroom);
       messageController.clear();
     }
+    markMessagesAsSeen(ref);
 
     return Scaffold(
       appBar: AppBar(
@@ -125,6 +146,10 @@ class ChatRoomPage extends ConsumerWidget {
                     child: Card(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                       child: TextField(
+                        textInputAction: TextInputAction.go,
+                        onSubmitted: (value){
+                          sendMessageHandler();
+                        },
                         controller: messageController,
                         maxLines: null,
                         decoration: InputDecoration(
