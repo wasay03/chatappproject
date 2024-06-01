@@ -1,5 +1,6 @@
 import 'package:chatappproject/main.dart';
 import 'package:chatappproject/models/UserModel.dart';
+import 'package:chatappproject/screens/ForgotPasswordPage.dart';
 import 'package:chatappproject/screens/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,11 +18,12 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authServiceAsync = ref.watch(authenticationServiceProvider);
+    final showPassword = ref.watch(passwordVisibilityProvider);
 
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 50),
+          padding: EdgeInsets.symmetric(horizontal: 40),
           child: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -41,12 +43,32 @@ class LoginPage extends ConsumerWidget {
                     decoration: InputDecoration(hintText: "Your email"),
                   ),
                   SizedBox(height: 10),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(hintText: "Your password"),
-                    obscureText: true,
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: 
+                      
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(hintText: "Your password"),
+                        obscureText: !showPassword,
+                      ),
+                      trailing:IconButton(onPressed: (){ref.read(passwordVisibilityProvider.notifier).toggle();}, icon:(showPassword)? Icon(Icons.visibility_off):Icon(Icons.visibility))
+                    ,
                   ),
-                  SizedBox(height: 40),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                      );
+                    },
+                    child: Text(
+                      "Forgot Password?",
+                      style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                    ),
+                    ),
+                  
+                  SizedBox(height: 20),
                   CupertinoButton(
                     onPressed: authServiceAsync.when(
                       data: (authService) => () async {

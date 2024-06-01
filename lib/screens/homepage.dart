@@ -28,7 +28,7 @@ class HomePage extends ConsumerWidget {
         firebaseUser: FirebaseAuth.instance.currentUser!,)));}),
 
         centerTitle: true,
-        title: Text("Chat App"),
+        title: Text("Messenger"),
         actions: [
           IconButton(
             onPressed: () async {
@@ -84,7 +84,7 @@ class HomePage extends ConsumerWidget {
                                 backgroundImage: NetworkImage(targetUser.profilepic.toString()),
                               ),
                               title: Text(targetUser.fullname.toString()),
-                              subtitle: (chatRoomModel.lastMessage.toString() != "") 
+                              subtitle: (chatRoomModel.lastMessage.toString()!="null") 
                                   ? Text(chatRoomModel.lastMessage.toString().trim()) 
                                   : Text("Say hi to your new friend!", 
                                     style: TextStyle(

@@ -123,6 +123,7 @@ class EditProfile extends CompleteProfile {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fullNameController = TextEditingController(text: userModel.fullname);
+    print(userModel.profilepic.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -149,8 +150,9 @@ class EditProfile extends CompleteProfile {
                 padding: EdgeInsets.all(0),
                 child: CircleAvatar(
                   radius: 60,
-                  backgroundImage: ref.watch(imageProvider) != null ? FileImage(ref.watch(imageProvider)!) : null,
-                  child: ref.watch(imageProvider) == null ? Icon(Icons.person, size: 60) : null,
+                  backgroundImage: ref.watch(imageProvider) != null ? FileImage(ref.watch(imageProvider)!) :NetworkImage(userModel.profilepic.toString()) as ImageProvider<Object>,
+                  child: ref.watch(imageProvider) == null&&userModel.profilepic.toString()==null ? Icon(Icons.person, size: 60) : null,
+                  
                 ),
               ),
               SizedBox(height: 20),
@@ -170,6 +172,7 @@ class EditProfile extends CompleteProfile {
                 },
                 color: Theme.of(context).colorScheme.secondary,
                 child: Text("Submit"),
+                borderRadius: BorderRadius.circular(20),
               ),
             ],
           ),
