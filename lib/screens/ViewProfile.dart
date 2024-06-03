@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+
 import 'package:chatappproject/models/ChatRoomModel.dart';
 import 'package:chatappproject/providers/home_provider.dart';
+import 'package:chatappproject/screens/homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chatappproject/models/UserModel.dart';
@@ -38,9 +40,10 @@ Future<void> deleteMessages(String chatroomId) async {
   await batch.commit();
 }
 
-  void handleClick(int item) {
+  Future<void> handleClick(int item,chatroomId,ref) async {
   switch (item) {
     case 0:
+      deleteConvo(chatroomId, ref);
       break;
     case 1:
       break;
@@ -56,45 +59,44 @@ Future<void> deleteMessages(String chatroomId) async {
 
       actions: <Widget>[
       PopupMenuButton<int>(
-          onSelected: (item) => handleClick(item),
+          onSelected: (item) => handleClick(item,chatroom.chatroomid,ref).then((value) => {Navigator.popUntil(context,(route)=>route.isFirst)}),
           itemBuilder: (context) => [
             PopupMenuItem<int>(value: 0, child: Text('Delete Conversation')),
           ],
         ),
     ],
   ),
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/bg.png"),
-            fit: BoxFit.cover,
-          ),
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/bg.png"),
+          fit: BoxFit.cover,
         ),
-
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
+      ),
+      
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            
+            children: [
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(user.profilepic.toString()),
+              ),
+              SizedBox(height: 20),
+              Text(
+                user.fullname.toString(),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text(
+                user.email.toString(),
+                style: TextStyle(fontSize: 18, color: Colors.grey[700]),
+              ),
+              SizedBox(height: 20),
               
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(user.profilepic.toString()),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  user.fullname.toString(),
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  user.email.toString(),
-                  style: TextStyle(fontSize: 18, color: Colors.grey[700]),
-                ),
-                SizedBox(height: 20),
-                
-              ],
-            ),
+            ],
           ),
         ),
       ),
