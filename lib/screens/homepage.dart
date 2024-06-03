@@ -107,7 +107,7 @@ class HomePage extends ConsumerWidget {
                                   ),
                                   title: Text(targetUser.fullname.toString(),style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary)),
                                   subtitle: (chatRoomModel.lastMessage.toString()!="null") 
-                                      ? Text(chatRoomModel.lastMessage.toString().trim(),style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.secondary),) 
+                                      ? Text(chatRoomModel.lastMessage.toString().trim(),maxLines: 2,style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.secondary),) 
                                       : Text("Say hi to your new friend!", 
                                         style: TextStyle(
                                           fontSize: 15,

@@ -98,8 +98,8 @@ class LoginPage extends ConsumerWidget {
                           showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
-                                title: Text("Sign Up Error"),
-                                content: Text(""),
+                                title: Text("Login Error"),
+                                content: Text(e.toString()),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),

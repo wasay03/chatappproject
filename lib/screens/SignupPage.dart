@@ -39,30 +39,30 @@ class SignUpPage extends StatelessWidget {
           ],
         ),
       );
-    // } else {
-    //   final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-    //   if (credential != null) {
-    //     String uid = credential.user!.uid;
-    //     UserModel newUser = UserModel(
-    //       uid: uid,
-    //       email: email,
-    //       fullname: "",
-    //       profilepic: "",
-    //     );
-    //     await FirebaseFirestore.instance.collection("users").doc(uid).set(newUser.toMap()).then((value) {
-    //       Navigator.popUntil(context, (route) => route.isFirst);
-    //       Navigator.pushReplacement(
-    //         context,
-    //         MaterialPageRoute(
-    //           builder: (context) {
-    //             return CompleteProfile(userModel: newUser, firebaseUser: credential.user!);
-    //           },
-    //         ),
-    //       );
-    //     });
-    //   }
-    // }
-  }}
+    } else {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      if (credential != null) {
+        String uid = credential.user!.uid;
+        UserModel newUser = UserModel(
+          uid: uid,
+          email: email,
+          fullname: "",
+          profilepic: "",
+        );
+        await FirebaseFirestore.instance.collection("users").doc(uid).set(newUser.toMap()).then((value) {
+          Navigator.popUntil(context, (route) => route.isFirst);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return CompleteProfile(userModel: newUser, firebaseUser: credential.user!);
+              },
+            ),
+          );
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class SignUpPage extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Messenger",
+                    "Chat Link",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 45,
